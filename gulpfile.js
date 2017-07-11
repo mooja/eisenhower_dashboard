@@ -19,6 +19,7 @@ var gulp = require('gulp'),
       spawn = require('child_process').spawn,
       runSequence = require('run-sequence'),
       browserSync = require('browser-sync').create(),
+      ts = require('gulp-typescript'),
       reload = browserSync.reload;
 
 
@@ -33,6 +34,7 @@ var pathsConfig = function (appName) {
     sass: this.app + '/static/sass',
     fonts: this.app + '/static/fonts',
     images: this.app + '/static/images',
+    typescript: this.app + '/static/typescript',
     js: this.app + '/static/js',
   }
 };
@@ -56,9 +58,12 @@ gulp.task('styles', function() {
     .pipe(gulp.dest(paths.css));
 });
 
+// typescript project
+
 // Javascript minification
 gulp.task('scripts', function() {
-  return gulp.src(paths.js + '/project.js')
+  return gulp.src(paths.typescript + '/project.ts')
+    .pipe(ts({'strict': true}))
     .pipe(plumber()) // Checks for errors
     .pipe(uglify()) // Minifies the js
     .pipe(rename({ suffix: '.min' }))
