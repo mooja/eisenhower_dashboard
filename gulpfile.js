@@ -68,7 +68,7 @@ gulp.task('scripts', function() {
     // .pipe(plumber()) // Checks for errors
     // .pipe(uglify()) // Minifies the js
     .js
-    .pipe(rename({ suffix: '.min' }))
+    // .pipe(rename({ suffix: '.js' }))
     .pipe(gulp.dest(paths.js));
 });
 
@@ -100,13 +100,17 @@ gulp.task('browserSync', function() {
 gulp.task('watch', function() {
 
   gulp.watch(paths.sass + '/*.scss', ['styles']);
-  gulp.watch(paths.js + '/*.js', ['scripts']).on("change", reload);
-  gulp.watch(paths.images + '/*', ['imgCompression']);
-  gulp.watch(paths.templates + '/**/*.html').on("change", reload);
+  gulp.watch(paths.typescript + '/*.ts', ['scripts']); // .on("change", reload);
+  // gulp.watch(paths.images + '/*', ['imgCompression']);
+  // gulp.watch(paths.templates + '/**/*.html').on("change", reload);
 
 });
 
 // Default task
 gulp.task('default', function() {
-    runSequence(['styles', 'scripts', 'imgCompression'], 'runServer', 'browserSync', 'watch');
+    runSequence(['styles', 'scripts'], 'watch');
 });
+
+// gulp.task('default', function() {
+//     runSequence(['styles', 'scripts', 'imgCompression'], 'runServer', 'browserSync', 'watch');
+// });
