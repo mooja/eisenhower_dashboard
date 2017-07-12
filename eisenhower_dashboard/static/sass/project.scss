@@ -69,3 +69,46 @@ $red: #b94a48;
 [hidden][style="display: block;"] {
   display: block !important;
 }
+
+////////////////////////////////
+		// Eisenhower Matrix //
+////////////////////////////////
+$matrix_width: 800px;
+$matrix_height: 500px;
+$quadrant_width: $matrix_width / 2;
+$quadrant_height: $matrix_height / 2;
+
+.ematrix {
+  width: $matrix_width;
+  height: $matrix_height;
+  margin: 20px auto;
+}
+
+.quadrant {
+  float: left;
+  display: block;
+  width: $quadrant_width;
+  height: $quadrant_height;
+  color: $white;
+  font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+  font-size: 20px;
+  font-weight: 600;
+  padding: 20px;
+  text-transform: uppercase;
+}
+
+.quadrant1 {
+  background: $mint-green;
+}
+
+.quadrant2 {
+  background: $mint-green;
+}
+
+.quadrant3 {
+  background: lighten($red, 20%);
+}
+
+.quadrant4 {
+  background: lighten($red, 20%);
+}
