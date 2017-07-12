@@ -62,10 +62,12 @@ gulp.task('styles', function() {
 
 // Javascript minification
 gulp.task('scripts', function() {
-  return gulp.src(paths.typescript + '/project.ts')
-    .pipe(ts({'strict': true}))
-    .pipe(plumber()) // Checks for errors
-    .pipe(uglify()) // Minifies the js
+  var tsProject = ts.createProject('tsconfig.json');
+  return tsProject.src()
+    .pipe(tsProject())
+    // .pipe(plumber()) // Checks for errors
+    // .pipe(uglify()) // Minifies the js
+    .js
     .pipe(rename({ suffix: '.min' }))
     .pipe(gulp.dest(paths.js));
 });

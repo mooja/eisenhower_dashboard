@@ -20,4 +20,4 @@ Issues with the above approach:
 */
 // $('.form-group').removeClass('row');
 
-console.log('hello world');
+console.log('Typescript is Working!');

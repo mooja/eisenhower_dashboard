@@ -1,0 +1,10 @@
+{
+    "files": [
+        "eisenhower_dashboard/static/typescript/project.ts"
+    ],
+    "compilerOptions": {
+        "strict": true,
+        "target": "es6",
+        "noImplicitAny": true
+    }
+}
