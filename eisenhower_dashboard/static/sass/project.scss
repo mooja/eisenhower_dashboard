@@ -73,27 +73,16 @@ $red: #b94a48;
 ////////////////////////////////
 		// Eisenhower Matrix //
 ////////////////////////////////
-.quadrant {
-  color: $white;
-  text-transform: uppercase;
-  font-size: 24px;
-  font-weight: 500; 
-  font-family: 'Fira Sans';
-  min-height: 200px;
-}
 
-.quadrant1 {
-  background: #EF5C23;
-}
 
-.quadrant2 {
-  background: #889F4D;
-}
+////////////////////////////////
+		// Graphs //
+////////////////////////////////
 
-.quadrant3 {
-  background: #F8C11B;
-}
+.graphs {
+  margin-top: 20px;
 
-.quadrant4 {
-  background: #66A0DC;
+  &:first-child {
+    padding-left: 0;
+  }
 }
