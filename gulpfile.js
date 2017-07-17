@@ -20,7 +20,10 @@ var gulp = require('gulp'),
       runSequence = require('run-sequence'),
       browserSync = require('browser-sync').create(),
       ts = require('gulp-typescript'),
-      reload = browserSync.reload;
+      reload = browserSync.reload,
+      browserify = require("browserify"),
+      tsify = require("tsify"),
+      source = require('vinyl-source-stream');
 
 
 // Relative paths function
@@ -52,22 +55,28 @@ gulp.task('styles', function() {
     .pipe(plumber()) // Checks for errors
     .pipe(autoprefixer({browsers: ['last 2 versions']})) // Adds vendor prefixes
     .pipe(pixrem())  // add fallbacks for rem units
-    .pipe(gulp.dest(paths.css))
-    .pipe(rename({ suffix: '.min' }))
-    .pipe(cssnano()) // Minifies the result
     .pipe(gulp.dest(paths.css));
+    // .pipe(rename({ suffix: '.min' }))
+    // .pipe(cssnano()) // Minifies the result
+    // .pipe(gulp.dest(paths.css));
 });
 
 // typescript project
 
 // Javascript minification
 gulp.task('scripts', function() {
-  var tsProject = ts.createProject('tsconfig.json');
-  return tsProject.src()
-    .pipe(tsProject())
+    return browserify({
+      'basedir': '.',
+      'debug': true,
+      'entries': [`${paths.typescript}/project.tsx`],
+      'cache': {},
+      'packageCache': {}
+    })
+    .plugin(tsify)
+    .bundle()
+    .pipe(source("project.js"))
     // .pipe(plumber()) // Checks for errors
     // .pipe(uglify()) // Minifies the js
-    .js
     // .pipe(rename({ suffix: '.js' }))
     .pipe(gulp.dest(paths.js));
 });
@@ -100,7 +109,7 @@ gulp.task('browserSync', function() {
 gulp.task('watch', function() {
 
   gulp.watch(paths.sass + '/*.scss', ['styles']);
-  gulp.watch(paths.typescript + '/*.ts', ['scripts']); // .on("change", reload);
+  gulp.watch(paths.typescript + '/*', ['scripts']); // .on("change", reload);
   // gulp.watch(paths.images + '/*', ['imgCompression']);
   // gulp.watch(paths.templates + '/**/*.html').on("change", reload);
 

@@ -1,10 +1,12 @@
 {
-    "files": [
-        "eisenhower_dashboard/static/typescript/project.ts"
+    "exclude": [
+        "node_modules"
     ],
     "compilerOptions": {
         "strict": true,
         "target": "es6",
-        "noImplicitAny": true
+        "noImplicitAny": true,
+        "sourceMap": true,
+        "jsx": "react"
     }
 }
