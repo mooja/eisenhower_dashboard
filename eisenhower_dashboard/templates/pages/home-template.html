@@ -1,0 +1,76 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+<div class="container">
+    <!-- /////////////////// Eisenhower Matrix ///////////////////////// -->
+    <div class="row matrix">
+        <div class="col">
+            <div class="card card-inverse card-danger">
+                <div class="card-header">Important and Urgent</div>
+                <div class="card-block">
+                    <h4 class="text-center">0:00:00</h4>
+                </div>
+                <div class="card-footer">
+                    <a class="btn btn-primary">Begin Session</a>
+                </div>
+            </div>
+        </div>
+        <div class="col">
+            <div class="card card-inverse card-success">
+                <div class="card-header">Important and Non-Urgent</div>
+                <div class="card-block">
+                    <h4 class="text-center">0:00:00</h4>
+                </div>
+                <div class="card-footer">
+                    <a class="btn btn-primary">Begin Session</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row matrix">
+        <div class="col">
+            <div class="card card-inverse card-warning">
+                <div class="card-header">Urgent</div>
+                <div class="card-block">
+                    <h4 class="text-center">0:00:00</h4>
+                </div>
+                <div class="card-footer">
+                    <a class="btn btn-primary">Begin Session</a>
+                </div>
+            </div>
+        </div>
+        <div class="col">
+            <div class="card card-inverse card-info">
+                <div class="card-header">Non-Urgent</div>
+                <div class="card-block">
+                    <h4 class="text-center">0:00:00</h4>
+                </div>
+                <div class="card-footer">
+                    <a class="btn btn-primary">Begin Session</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- /////////////////// Eisenhower Matrix ///////////////////////// -->
+
+    <div class="row graphs">
+        <div class="col">
+            <div class="card">
+                <div class="card-header">Time Spent This Week</div>
+                <div class="card-block">
+                    <img src="{% static 'images/graph1.png' %}" alt="" class="img-fluid">
+                </div>
+            </div>
+        </div>
+        <div class="col">
+            <div class="card">
+                <div class="card-header">Time Spent This Month</div>
+                <div class="card-block">
+                    <img src="{% static 'images/graph1.png' %}" alt="" class="img-fluid">
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock content %}
