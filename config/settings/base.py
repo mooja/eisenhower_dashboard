@@ -56,6 +56,7 @@ LOCAL_APPS = [
     # custom users app
     'eisenhower_dashboard.users.apps.UsersConfig',
     # Your stuff: custom apps go here
+    'matrix',
 ]
 
 # See: https://docs.djangoproject.com/en/dev/ref/settings/#installed-apps
