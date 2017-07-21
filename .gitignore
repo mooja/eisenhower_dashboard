@@ -69,4 +69,4 @@ eisenhower_dashboard/static/css
 staticfiles/
 
 .cache/
-
+.vscode/
