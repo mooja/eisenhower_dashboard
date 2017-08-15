@@ -1,5 +1,6 @@
 import * as React from "react";
 import * as ReactDOM from "react-dom";
+import { ActionCreator } from "react-redux";
 
 class QuadrantTimer extends React.Component<any, any> {
     constructor (props: any) {
