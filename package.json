@@ -6,6 +6,7 @@
     "@types/react-dom": "^15.5.1",
     "@types/react-redux": "^4.4.47",
     "@types/redux": "^3.6.0",
+    "moment": "^2.18.1",
     "react": "^15.6.1",
     "react-dom": "^15.6.1",
     "react-redux": "^5.0.5",
