@@ -36,15 +36,22 @@ class EMatrix extends React.Component<any, any> {
         this.state = {user: this.props.user, timeSessions: []};
     }
 
+    processServerJson(json) {
+        return json.map(ts => {
+            if (ts.end === null)
+                return { ...ts, 'start': Date.parse(ts.start)}
+            return { ...ts, 'start': Date.parse(ts.start), 'end': Date.parse(ts.end)}
+        });
+    }
+
     componentDidMount() {
         fetch('/m/timesessions')
             .then(response => response.json())
-            .then(json => {this.setState({timeSessions: json})});
+            .then(json => {this.setState({timeSessions: this.processServerJson(json)})});
     }
 
     sessionsByQuadrant(quadrant: string) {
-        const timeSessions: any[] = this.state.timeSessions;
-        return timeSessions.filter(ts => ts.quadrant === quadrant);
+        return this.state.timeSessions.filter(ts => ts.quadrant === quadrant);
     }
 
     render() {
