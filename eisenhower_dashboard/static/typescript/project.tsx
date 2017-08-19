@@ -1,30 +1,59 @@
 import * as React from "react";
 import * as ReactDOM from "react-dom";
+import * as moment from 'moment';
 import { ActionCreator } from "react-redux";
 
+
 class QuadrantTimer extends React.Component<any, any> {
+    elapsedTime: number = 0;
     constructor (props: any) {
         super(props);
+        this.elapsedTime = Date.now() - this.props.startTime;
+    }
+
+    componentDidMount() {
+        setInterval(() => {
+            this.setState({elapsedTime: Date.now() - this.props.startTime})
+        })
     }
 
     render() {
-        return <div className="card-block text-center">{this.props.time}</div>
+        if (!this.props.active) 
+            return <div className="card-block text-center">Not Active</div>
+        else {
+            const elapsedTime = Date.now() - this.props.startTime;
+            return <div className="card-block text-center">{elapsedTime}</div>
+        }
     }
 }
 
 class Quadrant extends React.Component<any, any> {
     constructor (props: any) {
         super(props);
+        this.state = {
+            totalTime: 0,
+            isActive: false,
+            timerStartTime: 0
+        }
+
+        this.props.sessions.forEach(ts => {
+            if (ts.end !== null)
+                this.state.totalTime += ts.end - ts.start;
+            else {
+                this.state.isActive = true;
+                this.state.totalTime += Date.now() - ts.start;
+                this.state.timerStartTime = ts.start;
+            }
+        });
     }
 
     render() {
         return (
             <div className={`card card-inverse ${this.props.colorClass}`}>
                 <div className="card-header">{this.props.title}</div>
-                <QuadrantTimer time="0:00:00"/>
-                <div> Total Sessions: {this.props.sessions.length}</div>
-                <div className="card-footer"> <a href="#" className="btn btn-primary">Begin Session</a>
-                </div>
+                <QuadrantTimer startTime={this.state.timerStartTime} active={this.state.isActive}/>
+                <div> Total Time: {moment.duration(this.state.totalTime).humanize()}</div>
+                <div className="card-footer"> <a href="#" className="btn btn-primary">Begin Session</a></div>
             </div>
         )
     }
