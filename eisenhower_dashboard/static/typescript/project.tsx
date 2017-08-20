@@ -5,24 +5,26 @@ import { ActionCreator } from "react-redux";
 
 
 class QuadrantTimer extends React.Component<any, any> {
-    elapsedTime: number = 0;
+    timerID: number; // timer ID
+
     constructor (props: any) {
         super(props);
-        this.elapsedTime = Date.now() - this.props.startTime;
+        this.state = {elapsedTime: Date.now() - this.props.startTime}
     }
 
     componentDidMount() {
-        setInterval(() => {
+        this.timerID = setInterval(() => {
             this.setState({elapsedTime: Date.now() - this.props.startTime})
-        })
+        }, 1000)
     }
 
     render() {
+        const seconds = Math.floor(this.state.elapsedTime / 1000) % 60
+        const minutes = Math.floor(this.state.elapsedTime / (1000*60)) % 60
         if (!this.props.active) 
             return <div className="card-block text-center">Not Active</div>
         else {
-            const elapsedTime = Date.now() - this.props.startTime;
-            return <div className="card-block text-center">{elapsedTime}</div>
+            return <div className="card-block text-center">{minutes}:{seconds}</div>
         }
     }
 }
@@ -30,29 +32,28 @@ class QuadrantTimer extends React.Component<any, any> {
 class Quadrant extends React.Component<any, any> {
     constructor (props: any) {
         super(props);
-        this.state = {
-            totalTime: 0,
-            isActive: false,
-            timerStartTime: 0
-        }
-
-        this.props.sessions.forEach(ts => {
-            if (ts.end !== null)
-                this.state.totalTime += ts.end - ts.start;
-            else {
-                this.state.isActive = true;
-                this.state.totalTime += Date.now() - ts.start;
-                this.state.timerStartTime = ts.start;
-            }
-        });
     }
 
     render() {
+        let totalTime: number = 0;
+        let isActive: boolean = false;
+        let timerStart: number = 0;
+
+        this.props.sessions.forEach(ts => {
+            if (ts.end !== null)
+                totalTime += ts.end - ts.start;
+            else {
+                isActive = true;
+                totalTime += Date.now() - ts.start;
+                timerStart = ts.start;
+            }
+        });
+
         return (
             <div className={`card card-inverse ${this.props.colorClass}`}>
                 <div className="card-header">{this.props.title}</div>
-                <QuadrantTimer startTime={this.state.timerStartTime} active={this.state.isActive}/>
-                <div> Total Time: {moment.duration(this.state.totalTime).humanize()}</div>
+                <QuadrantTimer startTime={timerStart} active={isActive}/>
+                <div> Total Time: {totalTime}</div>
                 <div className="card-footer"> <a href="#" className="btn btn-primary">Begin Session</a></div>
             </div>
         )
