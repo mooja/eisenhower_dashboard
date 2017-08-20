@@ -16,7 +16,7 @@ class TimeSession(models.Model):
     quadrant = models.CharField(choices=QUADRANT_CHOICES, max_length=2)
 
     start = models.DateTimeField();
-    end = models.DateTimeField(null=True);
+    end = models.DateTimeField(null=True, blank=True, default=None);
 
     def __str__(self):
         return f'<TimeSession {self.user!s} ({self.start!s}, {self.end!s})>'
