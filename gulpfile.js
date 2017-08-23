@@ -109,7 +109,7 @@ gulp.task('browserSync', function() {
 gulp.task('watch', function() {
 
   gulp.watch(paths.sass + '/*.scss', ['styles']);
-  gulp.watch(paths.typescript + '/*', ['scripts']); // .on("change", reload);
+  gulp.watch(paths.typescript + '/**', ['scripts']); // .on("change", reload);
   // gulp.watch(paths.images + '/*', ['imgCompression']);
   // gulp.watch(paths.templates + '/**/*.html').on("change", reload);
 
