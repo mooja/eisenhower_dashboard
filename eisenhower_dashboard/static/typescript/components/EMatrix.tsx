@@ -59,11 +59,8 @@ export class EMatrix extends React.Component <any, any> {
             body: JSON.stringify(payload)
         })
         .then(res => res.json())
-        .then(data => {
-            newTS.id = data.id;
-            // TODO: update local state with the information server has returned
-            // alert( JSON.stringify( data ) );
-        });
+        .then(data => newTS.id = data.id);
+        // TODO: handle failure
     }
 
     handleEndSession(quadrant) {
@@ -84,10 +81,8 @@ export class EMatrix extends React.Component <any, any> {
             credentials: 'include'
         })
         .then(res => res.json())
-        .then(data => {
-            // TODO: update local state with the information server has returned
-            // alert( JSON.stringify( data ) );
-        });
+        .then(data => {});
+        // TODO: handle failure
     }
 
     render() {
