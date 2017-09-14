@@ -7,9 +7,9 @@ import { Quadrant } from "./Quadrant";
 
 // using jQuery
 function getCookie(name) {
-    var cookieValue: null|string = null;
+    let cookieValue: null|string = null;
     if (document.cookie && document.cookie !== '') {
-        var cookies = document.cookie.split(';');
+        let cookies = document.cookie.split(';');
         for (var i = 0; i < cookies.length; i++) {
             var cookie = jQuery.trim(cookies[i]);
             // Does this cookie string begin with the name we want?
@@ -21,7 +21,6 @@ function getCookie(name) {
     }
     return cookieValue;
 }
-var csrftoken = getCookie('csrftoken');
 
 
 export class EMatrix extends React.Component <any, any> {
@@ -49,6 +48,7 @@ export class EMatrix extends React.Component <any, any> {
 
         // update database
         const payload = {start: new Date(), end, quadrant};
+        const csrftoken = getCookie('csrftoken');
         fetch(`/m/timesessions/`, {
             method: 'POST',
             headers: {
@@ -61,7 +61,7 @@ export class EMatrix extends React.Component <any, any> {
         .then(res => res.json())
         .then(data => {
             // TODO: update local state with the information server has returned
-            alert( JSON.stringify( data ) );
+            // alert( JSON.stringify( data ) );
         });
     }
 
