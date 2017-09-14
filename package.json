@@ -13,6 +13,7 @@
     "redux": "^3.7.2"
   },
   "devDependencies": {
+    "@types/jquery": "^3.2.12",
     "browser-sync": "^2.14.0",
     "browserify": "^14.4.0",
     "del": "^2.2.2",
@@ -27,6 +28,7 @@
     "gulp-typescript": "^3.2.0",
     "gulp-uglify": "^2.0.0",
     "gulp-util": "^3.0.7",
+    "jquery": "^3.2.1",
     "moment": "^2.18.1",
     "redux": "^3.7.2",
     "redux-devtools": "^3.4.0",

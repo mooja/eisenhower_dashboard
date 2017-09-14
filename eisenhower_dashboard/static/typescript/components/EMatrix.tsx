@@ -5,6 +5,25 @@ import { TimeSession } from "./TimeSession";
 import { Quadrant } from "./Quadrant";
 
 
+// using jQuery
+function getCookie(name) {
+    var cookieValue: null|string = null;
+    if (document.cookie && document.cookie !== '') {
+        var cookies = document.cookie.split(';');
+        for (var i = 0; i < cookies.length; i++) {
+            var cookie = jQuery.trim(cookies[i]);
+            // Does this cookie string begin with the name we want?
+            if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                break;
+            }
+        }
+    }
+    return cookieValue;
+}
+var csrftoken = getCookie('csrftoken');
+
+
 export class EMatrix extends React.Component <any, any> {
     constructor (props: any) {
         super(props);
@@ -23,12 +42,27 @@ export class EMatrix extends React.Component <any, any> {
     handleStartSession(quadrant) {
         const latest_id: number = Math.max.apply(null, this.state.timeSessions.map(ts => ts.id));
         const id = latest_id + 1;
-        const start = Date.now();
+        const start = new Date();
         const end = null;
         const newTS = new TimeSession({id, start, end, quadrant});
-
         this.setState({timeSessions: [...this.state.timeSessions, newTS]});
-        // TODO: update info on server
+
+        // update database
+        const payload = {start: new Date(), end, quadrant};
+        fetch(`/m/timesessions/`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRFToken': csrftoken,
+            },
+            credentials: 'include',
+            body: JSON.stringify(payload)
+        })
+        .then(res => res.json())
+        .then(data => {
+            // TODO: update local state with the information server has returned
+            alert( JSON.stringify( data ) );
+        });
     }
 
     handleEndSession(quadrant) {
