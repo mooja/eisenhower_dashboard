@@ -60,6 +60,7 @@ export class EMatrix extends React.Component <any, any> {
         })
         .then(res => res.json())
         .then(data => {
+            newTS.id = data.id;
             // TODO: update local state with the information server has returned
             // alert( JSON.stringify( data ) );
         });
@@ -69,7 +70,24 @@ export class EMatrix extends React.Component <any, any> {
         const ts: TimeSession = this.state.timeSessions.find(ts => quadrant === ts.quadrant && ts.isActive());
         ts.end = new Date();
         this.setState({timeSessions: [...this.state.timeSessions]});
-        // TODO: update info on server
+
+        const payload = {id: ts.id, quadrant: ts.quadrant, start: ts.start, end: ts.end};
+        const url = `/m/timesessions/${String(ts.id)}/`;
+        const csrftoken = getCookie('csrftoken');
+        fetch(url, {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRFToken': csrftoken,
+            },
+            body: JSON.stringify(payload),
+            credentials: 'include'
+        })
+        .then(res => res.json())
+        .then(data => {
+            // TODO: update local state with the information server has returned
+            // alert( JSON.stringify( data ) );
+        });
     }
 
     render() {
