@@ -1,6 +1,8 @@
 import * as React from "react";
 import * as ReactDOM from "react-dom";
 
+import * as _ from "lodash";
+
 import { Timer } from './Timer';
 import { TimeSession } from './TimeSession';
 
@@ -26,15 +28,30 @@ export class Quadrant extends React.Component<any, any> {
             timeDisplay = <Timer startTime={startTime} isActive={isActive}/>
         }
         else {
-            timeDisplay = <p> 0:00 </p>;
+            timeDisplay = <p className="text-center"> 0:00 </p>;
         }
 
-        const totalTime: number = quadrantSessions.map(ts => ts.duration()).reduce((dur1, dur2) => dur1+dur2, 0);
+        const today = new Date();
+        const todayStr = (new Date()).toDateString();
+        const day = today.getDay(), 
+            diff = today.getDate() - day + (day == 0 ? -6:1);
+        const thisMonday = new Date(today.setDate(diff));
+
+        const allSessions = quadrantSessions;
+        const sessionsToday = allSessions
+            .filter(ts => ts.start.toDateString() === todayStr);
+        const sessionsThisWeek = allSessions
+            .filter(ts => ts.start <= thisMonday);
+        
+        const totalTime: number = _.sum(allSessions.map(ts => ts.duration()));
+        const todayTime: number = _.sum(sessionsToday.map(ts => ts.duration()));
+        const thisWeekTime: number = _.sum(sessionsThisWeek.map(ts => ts.duration()));
  
         return (
             <div className={`card card-inverse ${this.props.colorClass}`}>
                 <div className="card-header">{this.props.title}</div>
                 {timeDisplay}
+                <p> Total Time: {totalTime}, Today: {todayTime}, This Week: {thisWeekTime} </p>
                 {actionsDisplay}
             </div>
         )
