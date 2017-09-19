@@ -26,16 +26,16 @@ function getCookie(name) {
 export class EMatrix extends React.Component <any, any> {
     constructor (props: any) {
         super(props);
-        this.state = {user: this.props.user, timeSessions: []};
+        this.state = {
+            user: this.props.user,
+            timeSessions: []
+        }
     }
 
     componentDidMount() {
-        fetch('/m/timesessions')
-            .then(response => response.json())
-            .then(json => {
-                const timeSessions = json.map(ts => new TimeSession(ts));
-                this.setState({timeSessions});
-            });
+        this.setState({
+            timeSessions: this.props.timeSessions.map(ts => new TimeSession(ts))
+        });
     }
 
     handleStartSession(quadrant) {

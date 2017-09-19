@@ -10,7 +10,8 @@ const user = {
     username: user_data_element.dataset.userUsername
 }
 
+declare const initialTimesessions: any[];
 ReactDOM.render(
-    <EMatrix user={user}/>,
+    <EMatrix user={user} timeSessions={initialTimesessions}/>,
     document.getElementById("root")
 );
