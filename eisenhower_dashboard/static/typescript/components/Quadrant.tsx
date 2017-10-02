@@ -12,23 +12,31 @@ export class Quadrant extends React.Component<any, any> {
         super(props);
     }
 
+    humanizeDuration(milliseconds: number): string {
+        const seconds = Math.floor(milliseconds / 1000);
+        const minutes = Math.floor(seconds / 60);
+        const hours = Math.round(minutes / 60);
+
+        return `${hours}h ${minutes % 60}m ${seconds % 60}s`;
+    }
+
     render() {
         const quadrantSessions: TimeSession[] = this.props.sessions.filter(ts => ts.quadrant === this.props.quadrant);
         const isActive: boolean = quadrantSessions.some(ts => ts.isActive());
 
         let actionsDisplay;
-        if (isActive) 
-            actionsDisplay = <a onClick={this.props.endSessionFunc}>End Session</a>;
-        else 
+        if (!isActive) 
             actionsDisplay = <a onClick={this.props.startSessionFunc}>Start Session</a>;
+        else 
+            actionsDisplay = <a onClick={this.props.endSessionFunc}>End Session</a>;
 
-        let timeDisplay;
+        let timerDisplay;
         if (isActive) {
             const startTime = (quadrantSessions.find(ts => ts.isActive()) as TimeSession).start;
-            timeDisplay = <Timer startTime={startTime} isActive={isActive}/>
+            timerDisplay = <Timer startTime={startTime} isActive={isActive}/>
         }
         else {
-            timeDisplay = <p className="text-center"> 0:00 </p>;
+            timerDisplay = <p className="text-center"> 0:00 </p>;
         }
 
         const today = new Date();
@@ -50,8 +58,12 @@ export class Quadrant extends React.Component<any, any> {
         return (
             <div className={`card card-inverse ${this.props.colorClass}`}>
                 <div className="card-header">{this.props.title}</div>
-                {timeDisplay}
-                <p> Total Time: {totalTime}, Today: {todayTime}, This Week: {thisWeekTime} </p>
+                {timerDisplay}
+                <ul>
+                    <li>Today: {this.humanizeDuration(todayTime)}</li>
+                    <li>This Week: {this.humanizeDuration(thisWeekTime)}</li>
+                    <li>Total: {this.humanizeDuration(totalTime)}</li>
+                </ul>
                 {actionsDisplay}
             </div>
         )
