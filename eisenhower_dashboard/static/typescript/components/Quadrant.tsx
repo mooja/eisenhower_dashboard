@@ -20,6 +20,17 @@ export class Quadrant extends React.Component<any, any> {
         return `${hours}h ${minutes % 60}m ${seconds % 60}s`;
     }
 
+    getMonday(fromDate) {
+        var dayLength = 24 * 60 * 60 * 1000;
+        var currentDate = new Date(fromDate.getFullYear(), fromDate.getMonth(), fromDate.getDate());
+        var currentWeekDayMillisecond = ((currentDate.getDay()) * dayLength);
+        var monday = new Date(currentDate.getTime() - currentWeekDayMillisecond + dayLength);
+        if (monday > currentDate) {
+            monday = new Date(monday.getTime() - (dayLength * 7));
+        }
+        return monday;
+    }
+
     render() {
         const quadrantSessions: TimeSession[] = this.props.sessions.filter(ts => ts.quadrant === this.props.quadrant);
         const isActive: boolean = quadrantSessions.some(ts => ts.isActive());
@@ -39,17 +50,14 @@ export class Quadrant extends React.Component<any, any> {
             timerDisplay = <p className="text-center"> 0:00 </p>;
         }
 
-        const today = new Date();
         const todayStr = (new Date()).toDateString();
-        const day = today.getDay(), 
-            diff = today.getDate() - day + (day == 0 ? -6:1);
-        const thisMonday = new Date(today.setDate(diff));
+        const thisMonday = this.getMonday(new Date());
 
         const allSessions = quadrantSessions;
         const sessionsToday = allSessions
             .filter(ts => ts.start.toDateString() === todayStr);
         const sessionsThisWeek = allSessions
-            .filter(ts => ts.start <= thisMonday);
+            .filter(ts => ts.start >= thisMonday);
         
         const totalTime: number = _.sum(allSessions.map(ts => ts.duration()));
         const todayTime: number = _.sum(sessionsToday.map(ts => ts.duration()));
